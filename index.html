@@ -736,7 +736,6 @@
 
         function addNewProduct() {
             console.log('Adding new product');
-            alert('નવું પ્રોડક્ટ ઉમેરાઈ રહ્યું છે...');
             
             const container = document.getElementById('productsContainer');
             if (!container) {
@@ -759,19 +758,101 @@
                             <label>પ્રોડક્ટ નામ *</label>
                             <select class="product-name" required>
                                 <option value="">પ્રોડક્ટ પસંદ કરો</option>
-                                <option value="વેબસાઈટ ડેવલપમેન્ટ">વેબસાઈટ ડેવલપમેન્ટ</option>
-                                <option value="મોબાઇલ એપ ડેવલપમેન્ટ">મોબાઇલ એપ ડેવલપમેન્ટ</option>
-                                <option value="ઇ-કોમર્સ વેબસાઈટ">ઇ-કોમર્સ વેબસાઈટ</option>
-                                <option value="ડિજિટલ માર્કેટિંગ">ડિજિટલ માર્કેટિંગ</option>
-                                <option value="સોશિયલ મીડિયા માર્કેટિંગ">સોશિયલ મીડિયા માર્કેટિંગ</option>
-                                <option value="SEO સેવાઓ">SEO સેવાઓ</option>
-                                <option value="કન્ટેન્ટ રાઇટિંગ">કન્ટેન્ટ રાઇટિંગ</option>
-                                <option value="ગ્રાફિક ડિઝાઇન">ગ્રાફિક ડિઝાઇન</option>
-                                <option value="લોગો ડિઝાઇન">લોગો ડિઝાઇન</option>
-                                <option value="વિડિયો એડિટિંગ">વિડિયો એડિટિંગ</option>
-                                <option value="ફોટોગ્રાફી">ફોટોગ્રાફી</option>
-                                <option value="બ્રાન્ડિંગ">બ્રાન્ડિંગ</option>
-                                <option value="પ્રિન્ટ ડિઝાઇન">પ્રિન્ટ ડિઝાઇન</option>
+                                <option value="વાર્ષિક હાજરી પત્રક અંગ્રેજી">વાર્ષિક હાજરી પત્રક અંગ્રેજી</option>
+                                <option value="વાર્ષિક હાજરી પત્રક ગુજરાતી">વાર્ષિક હાજરી પત્રક ગુજરાતી</option>
+                                <option value="ખાતાવહી ૧ઘા">ખાતાવહી ૧ઘા</option>
+                                <option value="અવેજી બુક">અવેજી બુક</option>
+                                <option value="દૈનિક હાજરી બુક (સાદી)">દૈનિક હાજરી બુક (સાદી)</option>
+                                <option value="દૈનિક હાજરી બુક (કુમાર,કન્યા)">દૈનિક હાજરી બુક (કુમાર,કન્યા)</option>
+                                <option value="દૈનિક હાજરી બુક (મોટી)">દૈનિક હાજરી બુક (મોટી)</option>
+                                <option value="માસિક હાજરીપત્રક ગુજરાતી">માસિક હાજરીપત્રક ગુજરાતી</option>
+                                <option value="માસિક હાજરીપત્રક અંગ્રેજી">માસિક હાજરીપત્રક અંગ્રેજી</option>
+                                <option value="માસિક હાજરીપત્રક 84 નામ">માસિક હાજરીપત્રક 84 નામ</option>
+                                <option value="માસિક હાજરીપત્રક 127 નામ">માસિક હાજરીપત્રક 127 નામ</option>
+                                <option value="માસિક હાજરીપત્રક ગુજરાતી વડોદરા">માસિક હાજરીપત્રક ગુજરાતી વડોદરા</option>
+                                <option value="વાર્ષિક હાજરી પત્રક ગુજરાતી (૯૫ નામો)">વાર્ષિક હાજરી પત્રક ગુજરાતી (૯૫ નામો)</option>
+                                <option value="વિદ્યાર્થી સરનામું ફોર્મ">વિદ્યાર્થી સરનામું ફોર્મ</option>
+                                <option value="પ્રવેશ ફોર્મ માધ્યમિક/પ્રાથમિક">પ્રવેશ ફોર્મ માધ્યમિક/પ્રાથમિક</option>
+                                <option value="પ્રવેશ ફોર્મ હાયર સેકન્ડરી">પ્રવેશ ફોર્મ હાયર સેકન્ડરી</option>
+                                <option value="ઠરાવબુક">ઠરાવબુક</option>
+                                <option value="ટ્યુશન રજીસ્ટર ૧ઘા">ટ્યુશન રજીસ્ટર ૧ઘા</option>
+                                <option value="ટ્યુશન રજીસ્ટર રઘા">ટ્યુશન રજીસ્ટર રઘા</option>
+                                <option value="ડી.એલ. રજીસ્ટર ૧ઘા">ડી.એલ. રજીસ્ટર ૧ઘા</option>
+                                <option value="ડી.એલ.રજીસ્ટર રઘા">ડી.એલ.રજીસ્ટર રઘા</option>
+                                <option value="સી.એલ. રજીસ્ટર ૧ઘા">સી.એલ. રજીસ્ટર ૧ઘા</option>
+                                <option value="સી.એલ. રજીસ્ટર રઘા">સી.એલ. રજીસ્ટર રઘા</option>
+                                <option value="પગાર પત્રક પ્રાથમિક ૧ઘા">પગાર પત્રક પ્રાથમિક ૧ઘા</option>
+                                <option value="પગાર પત્રક પ્રાથમિક રઘા">પગાર પત્રક પ્રાથમિક રઘા</option>
+                                <option value="પગાર પત્રક માધ્યમિક ૧ઘા">પગાર પત્રક માધ્યમિક ૧ઘા</option>
+                                <option value="પગાર પત્રક માધ્યમિક રઘા">પગાર પત્રક માધ્યમિક રઘા</option>
+                                <option value="પગાર પત્રક વ્યક્તિગત ૧ઘા">પગાર પત્રક વ્યક્તિગત ૧ઘા</option>
+                                <option value="પગાર પત્રક વ્યક્તિગત રઘા">પગાર પત્રક વ્યક્તિગત રઘા</option>
+                                <option value="સી.પી.એફ. રજીસ્ટર">સી.પી.એફ. રજીસ્ટર</option>
+                                <option value="ઇનવર્ડ રજીસ્ટર ૧ઘા">ઇનવર્ડ રજીસ્ટર ૧ઘા</option>
+                                <option value="ઇનવર્ડ રજીસ્ટર રઘા">ઇનવર્ડ રજીસ્ટર રઘા</option>
+                                <option value="આઉટવર્ડ રજીસ્ટર ૧ઘા">આઉટવર્ડ રજીસ્ટર ૧ઘા</option>
+                                <option value="આઉટવર્ડ રજીસ્ટર રઘા">આઉટવર્ડ રજીસ્ટર રઘા</option>
+                                <option value="સ્ટેશનરી રજીસ્ટર ૧ઘા">સ્ટેશનરી રજીસ્ટર ૧ઘા</option>
+                                <option value="પ્રાથમિક ઇસ્પેકશન રીપોર્ટ">પ્રાથમિક ઇસ્પેકશન રીપોર્ટ</option>
+                                <option value="જી.પી.એફ રજીસ્ટર ૧ઘા">જી.પી.એફ રજીસ્ટર ૧ઘા</option>
+                                <option value="જી.પી.એફ રજીસ્ટર રઘા">જી.પી.એફ રજીસ્ટર રઘા</option>
+                                <option value="દૈનીક ફી આવક પત્રક ૧ઘા">દૈનીક ફી આવક પત્રક ૧ઘા</option>
+                                <option value="દૈનીક ફી આવક પત્રક રઘા">દૈનીક ફી આવક પત્રક રઘા</option>
+                                <option value="માસિક ફી આવક પત્રક ૧ઘા">માસિક ફી આવક પત્રક ૧ઘા</option>
+                                <option value="માસિક ફી આવક પત્રક રઘા">માસિક ફી આવક પત્રક રઘા</option>
+                                <option value="વાઉચર ફોર્મ">વાઉચર ફોર્મ</option>
+                                <option value="રોજમેળ ૧ઘા">રોજમેળ ૧ઘા</option>
+                                <option value="રોજમેળ રઘા">રોજમેળ રઘા</option>
+                                <option value="રોજમેળ 3 ઘા">રોજમેળ 3 ઘા</option>
+                                <option value="રોજમેળ 4 ઘા">રોજમેળ 4 ઘા</option>
+                                <option value="રોજમેળ 5 ઘા">રોજમેળ 5 ઘા</option>
+                                <option value="પુરાણી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)">પુરાણી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                <option value="બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)">બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)</option>
+                                <option value="ફૂલ સાઈઝ 4 પેજ (61x76 inch.) (1000 નંગ)">ફૂલ સાઈઝ 4 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                <option value="સપ્લીમેન્ટરી કટસાઈઝ 8 પેજ (50x68 inch.) (1000 નંગ)">સપ્લીમેન્ટરી કટસાઈઝ 8 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                <option value="સપ્લીમેન્ટરી બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)">સપ્લીમેન્ટરી બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)</option>
+                                <option value="સપ્લીમેન્ટરી ફૂલ સાઈઝ 8 પેજ (61x76 inch.) (1000 નંગ)">સપ્લીમેન્ટરી ફૂલ સાઈઝ 8 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                <option value="સપ્લીમેન્ટરી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)">સપ્લીમેન્ટરી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                <option value="પુરાણી કટસાઈઝ 16 પેજ (50x68 inch.) (1000 નંગ)">પુરાણી કટસાઈઝ 16 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                <option value="બોર્ડ ટાઈપ ચોરસ 16 પેજ (50x80 inch.) (1000 નંગ)">બોર્ડ ટાઈપ ચોરસ 16 પેજ (50x80 inch.) (1000 નંગ)</option>
+                                <option value="ફૂલ સાઈઝ 16 પેજ (61x76 inch.) (1000 નંગ)">ફૂલ સાઈઝ 16 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                <option value="બોર્ડ ટાઈપ ચોરસ 12 પેજ (50x68 inch.) (1000 નંગ)">બોર્ડ ટાઈપ ચોરસ 12 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                <option value="ફૂલ સાઈઝ 12 પેજ (61x76 inch.) (1000 નંગ)">ફૂલ સાઈઝ 12 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                <option value="એલ.સી. ઇશ્યૂ રજિસ્ટર">એલ.સી. ઇશ્યૂ રજિસ્ટર</option>
+                                <option value="બોનાફાઇડ બુક">બોનાફાઇડ બુક</option>
+                                <option value="જનરલ રજીસ્ટર 15x20 500 નામ">જનરલ રજીસ્ટર 15x20 500 નામ</option>
+                                <option value="જનરલ રજીસ્ટર 1000 નામ (15x20)">જનરલ રજીસ્ટર 1000 નામ (15x20)</option>
+                                <option value="જનરલ રજીસ્ટર નામ (15x20 2000 નામ)">જનરલ રજીસ્ટર નામ (15x20 2000 નામ)</option>
+                                <option value="સામયિક રજીસ્ટર">સામયિક રજીસ્ટર</option>
+                                <option value="લાઇબ્રેરી રજીસ્ટર 1ઘા">લાઇબ્રેરી રજીસ્ટર 1ઘા</option>
+                                <option value="લાઇબ્રેરી રજીસ્ટર 2ઘા">લાઇબ્રેરી રજીસ્ટર 2ઘા</option>
+                                <option value="શિક્ષક લાઇબ્રેરી રજીસ્ટર 1ઘા">શિક્ષક લાઇબ્રેરી રજીસ્ટર 1ઘા</option>
+                                <option value="શિક્ષક લાઇબ્રેરી રજીસ્ટર 2ઘા">શિક્ષક લાઇબ્રેરી રજીસ્ટર 2ઘા</option>
+                                <option value="શિક્ષકનું સમયપત્રક">શિક્ષકનું સમયપત્રક</option>
+                                <option value="સામાન્ય સમયપત્રક (20x30)">સામાન્ય સમયપત્રક (20x30)</option>
+                                <option value="વર્ગ સમયપત્રક (ટુ કલર)">વર્ગ સમયપત્રક (ટુ કલર)</option>
+                                <option value="સામાન્ય સમયપત્રક (15x20)">સામાન્ય સમયપત્રક (15x20)</option>
+                                <option value="નામ/અટક/જાતિ બદલવાનું ફોર્મ">નામ/અટક/જાતિ બદલવાનું ફોર્મ</option>
+                                <option value="કોન્સોલિડેટેડ રિઝલ્ટશીટ">કોન્સોલિડેટેડ રિઝલ્ટશીટ</option>
+                                <option value="S.S.C. રીઝલ્ટ રજીસ્ટર">S.S.C. રીઝલ્ટ રજીસ્ટર</option>
+                                <option value="H.S.C. રીઝલ્ટ રજીસ્ટર">H.S.C. રીઝલ્ટ રજીસ્ટર</option>
+                                <option value="મુવમેન્ટ રજીસ્ટર">મુવમેન્ટ રજીસ્ટર</option>
+                                <option value="મુલાકાતી રજીસ્ટર">મુલાકાતી રજીસ્ટર</option>
+                                <option value="સર્વિસ બુક નાની">સર્વિસ બુક નાની</option>
+                                <option value="સર્વિસ બુક છીંટ બાઇન્ડીંગ">સર્વિસ બુક છીંટ બાઇન્ડીંગ</option>
+                                <option value="પરિણામ કાર્ડ (પ્રા./ઉચ્ચ પ્રા.)">પરિણામ કાર્ડ (પ્રા./ઉચ્ચ પ્રા.)</option>
+                                <option value="એકઝામીનેશન એરેજમેન્ટ બુક">એકઝામીનેશન એરેજમેન્ટ બુક</option>
+                                <option value="એકઝામીનેશન સુપરવીઝન બુક">એકઝામીનેશન સુપરવીઝન બુક</option>
+                                <option value="એકઝામિનેશન ગેરહાજર બુક">એકઝામિનેશન ગેરહાજર બુક</option>
+                                <option value="શિક્ષક નોટિસ બુક">શિક્ષક નોટિસ બુક</option>
+                                <option value="રોસ્ટર રજીસ્ટર">રોસ્ટર રજીસ્ટર</option>
+                                <option value="રોસ્ટર રજિસ્ટર વિકલાંગ">રોસ્ટર રજિસ્ટર વિકલાંગ</option>
+                                <option value="ધોરણ-૯ સગ્રહિત પરિણામપત્રક (અનુસુચિત-૧૨)">ધોરણ-૯ સગ્રહિત પરિણામપત્રક (અનુસુચિત-૧૨)</option>
+                                <option value="ધોરણ-૧૦ સગ્રહિત પરિણામપત્રક">ધોરણ-૧૦ સગ્રહિત પરિણામપત્રક</option>
+                                <option value="પ્રગતિ પત્રક ધોરણ-૯ (ફોર કલર)">પ્રગતિ પત્રક ધોરણ-૯ (ફોર કલર)</option>
+                                <option value="પ્રગતિ પત્રક ધોરણ-૧૦ (ફોર કલર)">પ્રગતિ પત્રક ધોરણ-૧૦ (ફોર કલર)</option>
+                                <option value="માસિક પ્રગતિ પત્રક ઉ.મા. ફોર કલર">માસિક પ્રગતિ પત્રક ઉ.મા. ફોર કલર</option>
+                                <option value="પ્રગતિ પત્રક ધોરણ-૧ થી ૮ (ફોર કલર)">પ્રગતિ પત્રક ધોરણ-૧ થી ૮ (ફોર કલર)</option>
                                 <option value="અન્ય">અન્ય</option>
                             </select>
                         </div>
@@ -806,8 +887,6 @@
             if (container.children.length > 1) {
                 container.querySelector('.product-item:first-child .remove-product-btn').style.display = 'block';
             }
-            
-            alert('નવું પ્રોડક્ટ ઉમેરાઈ ગયું!');
         }
 
         function handleProductNameChange(selectElement) {
@@ -851,7 +930,6 @@
         function handleFormSubmit(e) {
             e.preventDefault();
             console.log('Form submitted');
-            alert('કોટેશન ફોર્મ સબમિટ થઈ રહ્યું છે...');
             
             const formData = new FormData(e.target);
             
@@ -902,7 +980,6 @@
             localStorage.setItem('quotationHistory', JSON.stringify(quotationHistory));
             
             displayQuotationPreview(quotationData);
-            alert('કોટેશન જનરેટ થઈ ગઈ!');
         }
 
         function generateQuotationId() {
@@ -1018,7 +1095,6 @@
             }
             
             console.log('Generating Gujarati PDF with', discountPercentage, '% discount');
-            alert('ગુજરાતી PDF જનરેટ થઈ રહી છે...');
             
             const company = companies[currentQuotation.company];
             const total = currentQuotation.totalAmount;
@@ -1290,8 +1366,6 @@
             setTimeout(() => {
                 printWindow.print();
             }, 1000);
-            
-            alert('ગુજરાતી PDF જનરેટ થઈ ગઈ!');
         }
 
         function viewHistory() {
