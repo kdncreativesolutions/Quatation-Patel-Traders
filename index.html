@@ -507,18 +507,18 @@
                 <div class="gujarati-pdf-buttons">
                     <h4 class="pdf-section-title">ગુજરાતી PDF (બેટર ફોન્ટ સપોર્ટ)</h4>
                     <div class="pdf-buttons-grid">
+                        <button id="generateGujaratiPDF0" class="gujarati-pdf-btn">
+                            <span class="discount-badge">0%</span>
+                            <span class="btn-text">રિયાયત</span>
+                            <span class="btn-subtext">ગુજરાતી PDF</span>
+                        </button>
+                        <button id="generateGujaratiPDF5" class="gujarati-pdf-btn">
+                            <span class="discount-badge">5%</span>
+                            <span class="btn-text">રિયાયત</span>
+                            <span class="btn-subtext">ગુજરાતી PDF</span>
+                        </button>
                         <button id="generateGujaratiPDF18" class="gujarati-pdf-btn">
                             <span class="discount-badge">18%</span>
-                            <span class="btn-text">રિયાયત</span>
-                            <span class="btn-subtext">ગુજરાતી PDF</span>
-                        </button>
-                        <button id="generateGujaratiPDF20" class="gujarati-pdf-btn">
-                            <span class="discount-badge">20%</span>
-                            <span class="btn-text">રિયાયત</span>
-                            <span class="btn-subtext">ગુજરાતી PDF</span>
-                        </button>
-                        <button id="generateGujaratiPDF25" class="gujarati-pdf-btn">
-                            <span class="discount-badge">25%</span>
                             <span class="btn-text">રિયાયત</span>
                             <span class="btn-subtext">ગુજરાતી PDF</span>
                         </button>
@@ -664,9 +664,27 @@
             }
 
             // PDF generation buttons
+            const pdf0Btn = document.getElementById('generateGujaratiPDF0');
+            const pdf5Btn = document.getElementById('generateGujaratiPDF5');
             const pdf18Btn = document.getElementById('generateGujaratiPDF18');
-            const pdf20Btn = document.getElementById('generateGujaratiPDF20');
-            const pdf25Btn = document.getElementById('generateGujaratiPDF25');
+
+            if (pdf0Btn) {
+                pdf0Btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('PDF 0% button clicked');
+                    generateGujaratiPDF(0);
+                });
+                console.log('PDF 0% button event listener added');
+            }
+
+            if (pdf5Btn) {
+                pdf5Btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('PDF 5% button clicked');
+                    generateGujaratiPDF(5);
+                });
+                console.log('PDF 5% button event listener added');
+            }
 
             if (pdf18Btn) {
                 pdf18Btn.addEventListener('click', function(e) {
@@ -675,24 +693,6 @@
                     generateGujaratiPDF(18);
                 });
                 console.log('PDF 18% button event listener added');
-            }
-
-            if (pdf20Btn) {
-                pdf20Btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('PDF 20% button clicked');
-                    generateGujaratiPDF(20);
-                });
-                console.log('PDF 20% button event listener added');
-            }
-
-            if (pdf25Btn) {
-                pdf25Btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('PDF 25% button clicked');
-                    generateGujaratiPDF(25);
-                });
-                console.log('PDF 25% button event listener added');
             }
 
             // Product name changes
@@ -1067,16 +1067,16 @@
                                 <td>₹${total.toFixed(2)}</td>
                             </tr>
                             <tr>
+                                <td>0% રિયાયત સાથે</td>
+                                <td>₹${(total * 1.00).toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>5% રિયાયત સાથે</td>
+                                <td>₹${(total * 0.95).toFixed(2)}</td>
+                            </tr>
+                            <tr>
                                 <td>18% રિયાયત સાથે</td>
                                 <td>₹${(total * 0.82).toFixed(2)}</td>
-                            </tr>
-                            <tr>
-                                <td>20% રિયાયત સાથે</td>
-                                <td>₹${(total * 0.80).toFixed(2)}</td>
-                            </tr>
-                            <tr>
-                                <td>25% રિયાયત સાથે</td>
-                                <td>₹${(total * 0.75).toFixed(2)}</td>
                             </tr>
                         </tbody>
                     </table>
