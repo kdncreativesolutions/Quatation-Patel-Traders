@@ -1312,7 +1312,6 @@
                         border-top: 1px solid #333;
                         margin-top: 40px;
                         padding-top: 5px;
-                        font-weight: bold;
                         font-size: 12px;
                     }
                     
@@ -1339,14 +1338,6 @@
                     </div>
                     
                     <div class="company-info">
-                        <div class="company-details">
-                            <h3>કંપની વિગતો</h3>
-                            <strong>${company.name}</strong><br>
-                            ${company.address}<br>
-                            ફોન: ${company.phone}<br>
-                            ઇમેઇલ: ${company.email}
-                        </div>
-                        
                         <div class="customer-details">
                             <h3>ગ્રાહક વિગતો</h3>
                             <strong>નામ:</strong> ${currentQuotation.customerName}<br>
@@ -1411,8 +1402,8 @@
                     <div class="signature-section">
                         <div class="signature-box" style="margin-left: auto;">
                             <div class="signature-line">કંપની હસ્તાક્ષર</div>
-                            <div style="margin-top: 10px; font-size: 11px; color: #666;">
-                                ${company.name}<br>
+                            <div style="margin-top: 10px; font-size: 11px; color: #000;">
+                                <b>${company.name}</b><br>
                                 તારીખ: _________________
                             </div>
                         </div>
@@ -2012,15 +2003,6 @@
             <body>
                 <div class="quotation-container">
                     <div class="header">
-                        <div class="company-info">
-                            <div class="company-name">${company.name}</div>
-                            <div class="company-details">
-                                ${company.address}<br>
-                                ફોન: ${company.phone}<br>
-                                ઇમેઇલ: ${company.email}
-                            </div>
-                        </div>
-                        
                         <div class="quotation-title">કોટેશન</div>
                         <div class="quotation-id">કોટેશન નંબર: ${currentQuotation.id}</div>
                         <div class="quotation-id">તારીખ: ${currentQuotation.date}</div>

@@ -603,76 +603,121 @@ function generateGujaratiPDF(discountPercentage) {
         <meta charset="UTF-8">
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@100..900&display=swap');
+            
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            
             body {
                 font-family: 'Baloo Bhai 2', 'Noto Sans Gujarati', sans-serif;
-                margin: 20px;
+                margin: 0;
+                padding: 0;
                 line-height: 1.6;
                 color: #000000;
             }
+            
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            
+            .letterhead-space {
+                width: 100%;
+                height: 2.54cm;
+                margin: 0;
+                padding: 0;
+                border-bottom: 1px dashed #ccc;
+                box-sizing: border-box;
+                display: block;
+                page-break-after: avoid;
+            }
+            
             .header {
-                text-align: center;
-                font-size: 24px;
-                font-weight: bold;
-                margin-bottom: 30px;
-                color: #667eea;
+                display: none;
             }
-            .company-info {
-                float: left;
-                width: 50%;
-                margin-bottom: 20px;
-            }
+            
             .quotation-info {
                 float: right;
                 width: 45%;
                 text-align: right;
+                margin-bottom: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
             }
+            
             .clear {
                 clear: both;
             }
+            
             .section {
-                margin: 20px 0;
+                margin: 20px;
+                margin-top: 15px;
             }
+            
             .section h3 {
                 color: #667eea;
                 border-bottom: 2px solid #667eea;
                 padding-bottom: 5px;
+                margin-bottom: 10px;
             }
+            
             table {
-                width: 100%;
+                width: calc(100% - 40px);
                 border-collapse: collapse;
-                margin: 20px 0;
+                margin: 20px;
+                margin-top: 10px;
             }
+            
             th, td {
                 border: 1px solid #ddd;
-                padding: 12px;
+                padding: 10px;
                 text-align: left;
+                font-size: 13px;
             }
+            
             th {
                 background-color: #000000;
                 color: white;
                 font-weight: bold;
             }
+            
             .footer {
                 text-align: center;
+                margin: 20px;
                 margin-top: 30px;
-                font-size: 12px;
+                font-size: 11px;
                 color: #666;
             }
+            
             .amount {
                 font-weight: bold;
                 color: #28a745;
             }
+            
+            @media print {
+                @page {
+                    size: A4;
+                    margin: 0;
+                }
+                
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                .letterhead-space {
+                    height: 2.54cm;
+                    margin: 0;
+                    padding: 0;
+                    page-break-after: avoid;
+                }
+            }
         </style>
     </head>
     <body>
-        <div class="header">કોટેશન</div>
-        
-        <div class="company-info">
-            <strong>${company.name}</strong><br>
-            ${company.address}<br>
-            ફોન: ${company.phone}<br>
-            ઇમેઇલ: ${company.email}<br>
-            GST: ${company.gst}
+        <div class="letterhead-space">
+            <!-- ⬆️ Your letterhead will print here (1 inch / 2.54cm space) -->
         </div>
         
         <div class="quotation-info">
