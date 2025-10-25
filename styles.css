@@ -166,8 +166,8 @@ body {
 }
 
 .quotation-preview .pricing-table th {
-    background: #667eea;
-    color: white;
+    background: #f0f0f1;
+    color: rgb(0, 0, 0);
     font-weight: 600;
 }
 

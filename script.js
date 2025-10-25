@@ -556,7 +556,7 @@ function generatePDF(discountPercentage) {
         head: [tableData[0]],
         body: tableData.slice(1),
         styles: { fontSize: 9 },
-        headStyles: { fillColor: [102, 126, 234] }
+        headStyles: { fillColor: [0, 0, 0] }
     });
     
     // Notes - Mixed language
@@ -648,7 +648,7 @@ function generateGujaratiPDF(discountPercentage) {
                 text-align: left;
             }
             th {
-                background-color: #667eea;
+                background-color: #000000;
                 color: white;
                 font-weight: bold;
             }
@@ -935,7 +935,7 @@ function exportToPDF() {
         head: [['ID', 'Date', 'Customer', 'Company', 'Product', 'Qty', 'Unit Price', 'Total']],
         body: tableData,
         styles: { fontSize: 8 },
-        headStyles: { fillColor: [102, 126, 234] }
+        headStyles: { fillColor: [0, 0, 0] }
     });
     
     doc.save('quotation_report.pdf');
