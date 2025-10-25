@@ -346,6 +346,7 @@ function handleFormSubmit(e) {
         date: new Date().toLocaleDateString('gu-IN'),
         customerName: formData.get('customerName'),
         contactInfo: formData.get('contactInfo'),
+        customerAddress: formData.get('customerAddress'),
         company: formData.get('company'),
         products: products,
         totalAmount: products.reduce((sum, product) => sum + product.total, 0),
@@ -431,6 +432,10 @@ function displayQuotationPreview(data) {
             <div class="detail-item">
                 <span class="detail-label">સંપર્ક:</span>
                 <span class="detail-value">${data.contactInfo}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">સરનામું:</span>
+                <span class="detail-value">${data.customerAddress}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">કંપની:</span>
@@ -602,7 +607,7 @@ function generateGujaratiPDF(discountPercentage) {
                 font-family: 'Baloo Bhai 2', 'Noto Sans Gujarati', sans-serif;
                 margin: 20px;
                 line-height: 1.6;
-                color: #333;
+                color: #000000;
             }
             .header {
                 text-align: center;
@@ -680,7 +685,8 @@ function generateGujaratiPDF(discountPercentage) {
         <div class="section">
             <h3>ગ્રાહક વિગતો</h3>
             <strong>નામ:</strong> ${currentQuotation.customerName}<br>
-            <strong>સંપર્ક:</strong> ${currentQuotation.contactInfo}
+            <strong>સંપર્ક:</strong> ${currentQuotation.contactInfo}<br>
+            <strong>સરનામું:</strong> ${currentQuotation.customerAddress}
         </div>
         
         <div class="section">

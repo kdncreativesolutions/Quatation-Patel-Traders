@@ -333,6 +333,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="customerAddress">ગ્રાહકનું સરનામું *</label>
+                        <textarea id="customerAddress" name="customerAddress" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
                         <label for="company">કંપની પસંદ કરો *</label>
                         <select id="company" name="company" required>
                             <option value="">કંપની પસંદ કરો</option>
@@ -884,6 +889,7 @@
                 }),
                 customerName: formData.get('customerName'),
                 contactInfo: formData.get('contactInfo'),
+                customerAddress: formData.get('customerAddress'),
                 company: formData.get('company'),
                 products: products,
                 totalAmount: products.reduce((sum, product) => sum + product.total, 0),
@@ -941,6 +947,10 @@
                     <div class="detail-item">
                         <span class="detail-label">સંપર્ક:</span>
                         <span class="detail-value">${data.contactInfo}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">સરનામું:</span>
+                        <span class="detail-value">${data.customerAddress}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">કંપની:</span>
@@ -1033,7 +1043,7 @@
                         margin: 0;
                         padding: 0;
                         line-height: 1.4;
-                        color: #333;
+                        color: #000000;
                         font-size: 12px;
                     }
                     
@@ -1194,7 +1204,8 @@
                         <div class="customer-details">
                             <h3>ગ્રાહક વિગતો</h3>
                             <strong>નામ:</strong> ${currentQuotation.customerName}<br>
-                            <strong>સંપર્ક:</strong> ${currentQuotation.contactInfo}
+                            <strong>સંપર્ક:</strong> ${currentQuotation.contactInfo}<br>
+                            <strong>સરનામું:</strong> ${currentQuotation.customerAddress}
                         </div>
                     </div>
                     
