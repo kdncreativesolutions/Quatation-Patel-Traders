@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>પટેલ ટ્રેડર્સ કોટેશન જનરેટર - Working Version</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&family=Noto+Sans+Gujarati:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Gujarati', 'Baloo Bhai 2', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-section, .preview-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Noto Sans Gujarati', 'Baloo Bhai 2', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .products-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            color: #667eea;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .add-product-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Noto Sans Gujarati', 'Baloo Bhai 2', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+        }
+
+        .add-product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .product-item {
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .product-header h4 {
+            color: #667eea;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .remove-product-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-product-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Noto Sans Gujarati', 'Baloo Bhai 2', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .pdf-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gujarati-pdf-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Noto Sans Gujarati', 'Baloo Bhai 2', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gujarati-pdf-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .discount-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .btn-subtext {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .admin-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Noto Sans Gujarati', 'Baloo Bhai 2', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .test-btn:hover {
+            background: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .pdf-buttons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>પટેલ ટ્રેડર્સ કોટેશન જનરેટર</h1>
+            <p>Patel Traders Quotation Generator System</p>
+        </div>
+
+        <!-- Test Button -->
+        <!-- <div style="text-align: center; margin-bottom: 20px;">
+            <button class="test-btn" onclick="testAllButtons()">બધા બટન ટેસ્ટ કરો</button>
+        </div> -->
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2>કોટેશન ફોર્મ</h2>
+                <form id="quotationForm">
+                    <div class="form-group">
+                        <label for="customerName">ગ્રાહકનું નામ *</label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactInfo">સંપર્ક માહિતી *</label>
+                        <input type="text" id="contactInfo" name="contactInfo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">કંપની પસંદ કરો *</label>
+                        <select id="company" name="company" required>
+                            <option value="">કંપની પસંદ કરો</option>
+                            <option value="companyA">કંપની A - પટેલ ટ્રેડર્સ</option>
+                            <option value="companyB">કંપની B - ટેક સોલ્યુશન</option>
+                            <option value="companyC">કંપની C - ડિજિટલ માર્કેટિંગ</option>
+                        </select>
+                    </div>
+
+                    <!-- Multiple Products Section -->
+                    <div class="products-section">
+                        <div class="section-header">
+                            <h3>પ્રોડક્ટ / સેવાઓ</h3>
+                            <button type="button" id="addProduct" class="add-product-btn">+ નવું પ્રોડક્ટ ઉમેરો</button>
+                        </div>
+                        
+                        <div id="productsContainer">
+                            <!-- Product 1 (Default) -->
+                            <div class="product-item" data-product-index="0">
+                                <div class="product-header">
+                                    <h4>પ્રોડક્ટ 1</h4>
+                                    <button type="button" class="remove-product-btn" style="display: none;">×</button>
+                                </div>
+                                
+                                <div class="product-fields">
+                                    <div class="form-group">
+                                        <label>પ્રોડક્ટ નામ *</label>
+                                        <select class="product-name" required>
+                                            <option value="">પ્રોડક્ટ પસંદ કરો</option>
+                                            <option value="વાર્ષિક હાજરી પત્રક અંગ્રેજી">વાર્ષિક હાજરી પત્રક અંગ્રેજી</option>
+                                            <option value="વાર્ષિક હાજરી પત્રક ગુજરાતી">વાર્ષિક હાજરી પત્રક ગુજરાતી</option>
+                                            <option value="ખાતાવહી ૧ઘા">ખાતાવહી ૧ઘા</option>
+                                            <option value="અવેજી બુક">અવેજી બુક</option>
+                                            <option value="દૈનિક હાજરી બુક (સાદી)">દૈનિક હાજરી બુક (સાદી)</option>
+                                            <option value="દૈનિક હાજરી બુક (કુમાર,કન્યા)">દૈનિક હાજરી બુક (કુમાર,કન્યા)</option>
+                                            <option value="દૈનિક હાજરી બુક (મોટી)">દૈનિક હાજરી બુક (મોટી)</option>
+                                            <option value="માસિક હાજરીપત્રક ગુજરાતી">માસિક હાજરીપત્રક ગુજરાતી</option>
+                                            <option value="માસિક હાજરીપત્રક અંગ્રેજી">માસિક હાજરીપત્રક અંગ્રેજી</option>
+                                            <option value="માસિક હાજરીપત્રક 84 નામ">માસિક હાજરીપત્રક 84 નામ</option>
+                                            <option value="માસિક હાજરીપત્રક 127 નામ">માસિક હાજરીપત્રક 127 નામ</option>
+                                            <option value="માસિક હાજરીપત્રક ગુજરાતી વડોદરા">માસિક હાજરીપત્રક ગુજરાતી વડોદરા</option>
+                                            <option value="વાર્ષિક હાજરી પત્રક ગુજરાતી (૯૫ નામો)">વાર્ષિક હાજરી પત્રક ગુજરાતી (૯૫ નામો)</option>
+                                            <option value="વિદ્યાર્થી સરનામું ફોર્મ">વિદ્યાર્થી સરનામું ફોર્મ</option>
+                                            <option value="પ્રવેશ ફોર્મ માધ્યમિક/પ્રાથમિક">પ્રવેશ ફોર્મ માધ્યમિક/પ્રાથમિક</option>
+                                            <option value="પ્રવેશ ફોર્મ હાયર સેકન્ડરી">પ્રવેશ ફોર્મ હાયર સેકન્ડરી</option>
+                                            <option value="ઠરાવબુક">ઠરાવબુક</option>
+                                            <option value="ટ્યુશન રજીસ્ટર ૧ઘા">ટ્યુશન રજીસ્ટર ૧ઘા</option>
+                                            <option value="ટ્યુશન રજીસ્ટર રઘા">ટ્યુશન રજીસ્ટર રઘા</option>
+                                            <option value="ડી.એલ. રજીસ્ટર ૧ઘા">ડી.એલ. રજીસ્ટર ૧ઘા</option>
+                                            <option value="ડી.એલ.રજીસ્ટર રઘા">ડી.એલ.રજીસ્ટર રઘા</option>
+                                            <option value="સી.એલ. રજીસ્ટર ૧ઘા">સી.એલ. રજીસ્ટર ૧ઘા</option>
+                                            <option value="સી.એલ. રજીસ્ટર રઘા">સી.એલ. રજીસ્ટર રઘા</option>
+                                            <option value="પગાર પત્રક પ્રાથમિક ૧ઘા">પગાર પત્રક પ્રાથમિક ૧ઘા</option>
+                                            <option value="પગાર પત્રક પ્રાથમિક રઘા">પગાર પત્રક પ્રાથમિક રઘા</option>
+                                            <option value="પગાર પત્રક માધ્યમિક ૧ઘા">પગાર પત્રક માધ્યમિક ૧ઘા</option>
+                                            <option value="પગાર પત્રક માધ્યમિક રઘા">પગાર પત્રક માધ્યમિક રઘા</option>
+                                            <option value="પગાર પત્રક વ્યક્તિગત ૧ઘા">પગાર પત્રક વ્યક્તિગત ૧ઘા</option>
+                                            <option value="પગાર પત્રક વ્યક્તિગત રઘા">પગાર પત્રક વ્યક્તિગત રઘા</option>
+                                            <option value="સી.પી.એફ. રજીસ્ટર">સી.પી.એફ. રજીસ્ટર</option>
+                                            <option value="ઇનવર્ડ રજીસ્ટર ૧ઘા">ઇનવર્ડ રજીસ્ટર ૧ઘા</option>
+                                            <option value="ઇનવર્ડ રજીસ્ટર રઘા">ઇનવર્ડ રજીસ્ટર રઘા</option>
+                                            <option value="આઉટવર્ડ રજીસ્ટર ૧ઘા">આઉટવર્ડ રજીસ્ટર ૧ઘા</option>
+                                            <option value="આઉટવર્ડ રજીસ્ટર રઘા">આઉટવર્ડ રજીસ્ટર રઘા</option>
+                                            <option value="સ્ટેશનરી રજીસ્ટર ૧ઘા">સ્ટેશનરી રજીસ્ટર ૧ઘા</option>
+                                            <option value="પ્રાથમિક ઇસ્પેકશન રીપોર્ટ">પ્રાથમિક ઇસ્પેકશન રીપોર્ટ</option>
+                                            <option value="જી.પી.એફ રજીસ્ટર ૧ઘા">જી.પી.એફ રજીસ્ટર ૧ઘા</option>
+                                            <option value="જી.પી.એફ રજીસ્ટર રઘા">જી.પી.એફ રજીસ્ટર રઘા</option>
+                                            <option value="દૈનીક ફી આવક પત્રક ૧ઘા">દૈનીક ફી આવક પત્રક ૧ઘા</option>
+                                            <option value="દૈનીક ફી આવક પત્રક રઘા">દૈનીક ફી આવક પત્રક રઘા</option>
+                                            <option value="માસિક ફી આવક પત્રક ૧ઘા">માસિક ફી આવક પત્રક ૧ઘા</option>
+                                            <option value="માસિક ફી આવક પત્રક રઘા">માસિક ફી આવક પત્રક રઘા</option>
+                                            <option value="વાઉચર ફોર્મ">વાઉચર ફોર્મ</option>
+                                            <option value="રોજમેળ ૧ઘા">રોજમેળ ૧ઘા</option>
+                                            <option value="રોજમેળ રઘા">રોજમેળ રઘા</option>
+                                            <option value="રોજમેળ 3 ઘા">રોજમેળ 3 ઘા</option>
+                                            <option value="રોજમેળ 4 ઘા">રોજમેળ 4 ઘા</option>
+                                            <option value="રોજમેળ 5 ઘા">રોજમેળ 5 ઘા</option>
+                                            <option value="પુરાણી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)">પુરાણી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                            <option value="બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)">બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)</option>
+                                            <option value="ફૂલ સાઈઝ 4 પેજ (61x76 inch.) (1000 નંગ)">ફૂલ સાઈઝ 4 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                            <option value="સપ્લીમેન્ટરી કટસાઈઝ 8 પેજ (50x68 inch.) (1000 નંગ)">સપ્લીમેન્ટરી કટસાઈઝ 8 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                            <option value="સપ્લીમેન્ટરી બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)">સપ્લીમેન્ટરી બોર્ડ ટાઈપ ચોરસ 4 પેજ (50x80 inch.) (1000 નંગ)</option>
+                                            <option value="સપ્લીમેન્ટરી ફૂલ સાઈઝ 8 પેજ (61x76 inch.) (1000 નંગ)">સપ્લીમેન્ટરી ફૂલ સાઈઝ 8 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                            <option value="સપ્લીમેન્ટરી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)">સપ્લીમેન્ટરી કટસાઈઝ 4 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                            <option value="પુરાણી કટસાઈઝ 16 પેજ (50x68 inch.) (1000 નંગ)">પુરાણી કટસાઈઝ 16 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                            <option value="બોર્ડ ટાઈપ ચોરસ 16 પેજ (50x80 inch.) (1000 નંગ)">બોર્ડ ટાઈપ ચોરસ 16 પેજ (50x80 inch.) (1000 નંગ)</option>
+                                            <option value="ફૂલ સાઈઝ 16 પેજ (61x76 inch.) (1000 નંગ)">ફૂલ સાઈઝ 16 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                            <option value="બોર્ડ ટાઈપ ચોરસ 12 પેજ (50x68 inch.) (1000 નંગ)">બોર્ડ ટાઈપ ચોરસ 12 પેજ (50x68 inch.) (1000 નંગ)</option>
+                                            <option value="ફૂલ સાઈઝ 12 પેજ (61x76 inch.) (1000 નંગ)">ફૂલ સાઈઝ 12 પેજ (61x76 inch.) (1000 નંગ)</option>
+                                            <option value="એલ.સી. ઇશ્યૂ રજિસ્ટર">એલ.સી. ઇશ્યૂ રજિસ્ટર</option>
+                                            <option value="બોનાફાઇડ બુક">બોનાફાઇડ બુક</option>
+                                            <option value="જનરલ રજીસ્ટર 15x20 500 નામ">જનરલ રજીસ્ટર 15x20 500 નામ</option>
+                                            <option value="જનરલ રજીસ્ટર 1000 નામ (15x20)">જનરલ રજીસ્ટર 1000 નામ (15x20)</option>
+                                            <option value="જનરલ રજીસ્ટર નામ (15x20 2000 નામ)">જનરલ રજીસ્ટર નામ (15x20 2000 નામ)</option>
+                                            <option value="સામયિક રજીસ્ટર">સામયિક રજીસ્ટર</option>
+                                            <option value="લાઇબ્રેરી રજીસ્ટર 1ઘા">લાઇબ્રેરી રજીસ્ટર 1ઘા</option>
+                                            <option value="લાઇબ્રેરી રજીસ્ટર 2ઘા">લાઇબ્રેરી રજીસ્ટર 2ઘા</option>
+                                            <option value="શિક્ષક લાઇબ્રેરી રજીસ્ટર 1ઘા">શિક્ષક લાઇબ્રેરી રજીસ્ટર 1ઘા</option>
+                                            <option value="શિક્ષક લાઇબ્રેરી રજીસ્ટર 2ઘા">શિક્ષક લાઇબ્રેરી રજીસ્ટર 2ઘા</option>
+                                            <option value="શિક્ષકનું સમયપત્રક">શિક્ષકનું સમયપત્રક</option>
+                                            <option value="સામાન્ય સમયપત્રક (20x30)">સામાન્ય સમયપત્રક (20x30)</option>
+                                            <option value="વર્ગ સમયપત્રક (ટુ કલર)">વર્ગ સમયપત્રક (ટુ કલર)</option>
+                                            <option value="સામાન્ય સમયપત્રક (15x20)">સામાન્ય સમયપત્રક (15x20)</option>
+                                            <option value="નામ/અટક/જાતિ બદલવાનું ફોર્મ">નામ/અટક/જાતિ બદલવાનું ફોર્મ</option>
+                                            <option value="કોન્સોલિડેટેડ રિઝલ્ટશીટ">કોન્સોલિડેટેડ રિઝલ્ટશીટ</option>
+                                            <option value="S.S.C. રીઝલ્ટ રજીસ્ટર">S.S.C. રીઝલ્ટ રજીસ્ટર</option>
+                                            <option value="H.S.C. રીઝલ્ટ રજીસ્ટર">H.S.C. રીઝલ્ટ રજીસ્ટર</option>
+                                            <option value="મુવમેન્ટ રજીસ્ટર">મુવમેન્ટ રજીસ્ટર</option>
+                                            <option value="મુલાકાતી રજીસ્ટર">મુલાકાતી રજીસ્ટર</option>
+                                            <option value="સર્વિસ બુક નાની">સર્વિસ બુક નાની</option>
+                                            <option value="સર્વિસ બુક છીંટ બાઇન્ડીંગ">સર્વિસ બુક છીંટ બાઇન્ડીંગ</option>
+                                            <option value="પરિણામ કાર્ડ (પ્રા./ઉચ્ચ પ્રા.)">પરિણામ કાર્ડ (પ્રા./ઉચ્ચ પ્રા.)</option>
+                                            <option value="એકઝામીનેશન એરેજમેન્ટ બુક">એકઝામીનેશન એરેજમેન્ટ બુક</option>
+                                            <option value="એકઝામીનેશન સુપરવીઝન બુક">એકઝામીનેશન સુપરવીઝન બુક</option>
+                                            <option value="એકઝામિનેશન ગેરહાજર બુક">એકઝામિનેશન ગેરહાજર બુક</option>
+                                            <option value="શિક્ષક નોટિસ બુક">શિક્ષક નોટિસ બુક</option>
+                                            <option value="રોસ્ટર રજીસ્ટર">રોસ્ટર રજીસ્ટર</option>
+                                            <option value="રોસ્ટર રજિસ્ટર વિકલાંગ">રોસ્ટર રજિસ્ટર વિકલાંગ</option>
+                                            <option value="ધોરણ-૯ સગ્રહિત પરિણામપત્રક (અનુસુચિત-૧૨)">ધોરણ-૯ સગ્રહિત પરિણામપત્રક (અનુસુચિત-૧૨)</option>
+                                            <option value="ધોરણ-૧૦ સગ્રહિત પરિણામપત્રક">ધોરણ-૧૦ સગ્રહિત પરિણામપત્રક</option>
+                                            <option value="પ્રગતિ પત્રક ધોરણ-૯ (ફોર કલર)">પ્રગતિ પત્રક ધોરણ-૯ (ફોર કલર)</option>
+                                            <option value="પ્રગતિ પત્રક ધોરણ-૧૦ (ફોર કલર)">પ્રગતિ પત્રક ધોરણ-૧૦ (ફોર કલર)</option>
+                                            <option value="માસિક પ્રગતિ પત્રક ઉ.મા. ફોર કલર">માસિક પ્રગતિ પત્રક ઉ.મા. ફોર કલર</option>
+                                            <option value="પ્રગતિ પત્રક ધોરણ-૧ થી ૮ (ફોર કલર)">પ્રગતિ પત્રક ધોરણ-૧ થી ૮ (ફોર કલર)</option>
+                                            <option value="અન્ય">અન્ય</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group custom-product-group" style="display: none;">
+                                        <label>કસ્ટમ પ્રોડક્ટ નામ</label>
+                                        <input type="text" class="custom-product" placeholder="તમારું પ્રોડક્ટ નામ લખો">
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>જથ્થો *</label>
+                                            <input type="number" class="quantity" min="1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>એકમ ભાવ (₹) *</label>
+                                            <input type="number" class="unit-price" min="0" step="0.01" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>નોંધ</label>
+                                        <input type="text" class="product-notes" placeholder="પ્રોડક્ટ વિશે વધારાની માહિતી">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">નોંધ (વૈકલ્પિક)</label>
+                        <textarea id="notes" name="notes" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="generate-btn">કોટેશન જનરેટ કરો</button>
+                </form>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h2>કોટેશન પૂર્વાવલોકન</h2>
+                <div class="quotation-preview" id="quotationPreview"></div>
+                
+                <div class="gujarati-pdf-buttons">
+                    <h4 class="pdf-section-title">ગુજરાતી PDF (બેટર ફોન્ટ સપોર્ટ)</h4>
+                    <div class="pdf-buttons-grid">
+                        <button id="generateGujaratiPDF18" class="gujarati-pdf-btn">
+                            <span class="discount-badge">18%</span>
+                            <span class="btn-text">રિયાયત</span>
+                            <span class="btn-subtext">ગુજરાતી PDF</span>
+                        </button>
+                        <button id="generateGujaratiPDF20" class="gujarati-pdf-btn">
+                            <span class="discount-badge">20%</span>
+                            <span class="btn-text">રિયાયત</span>
+                            <span class="btn-subtext">ગુજરાતી PDF</span>
+                        </button>
+                        <button id="generateGujaratiPDF25" class="gujarati-pdf-btn">
+                            <span class="discount-badge">25%</span>
+                            <span class="btn-text">રિયાયત</span>
+                            <span class="btn-subtext">ગુજરાતી PDF</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h2>એડમિન પેનલ</h2>
+            <div style="text-align: center;">
+                <button class="admin-btn" onclick="viewHistory()">કોટેશન ઇતિહાસ</button>
+                <button class="admin-btn" onclick="exportData()">ડેટા એક્સપોર્ટ કરો</button>
+                <button class="admin-btn" onclick="showCSVImport()">CSV ઇમ્પોર્ટ કરો</button>
+                <button class="admin-btn" onclick="clearData()">ડેટા ક્લિયર કરો</button>
+            </div>
+            
+            <!-- CSV Import Section -->
+            <div id="csvImportSection" style="display: none; margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3>CSV ઇમ્પોર્ટ</h3>
+                <div style="margin-bottom: 15px;">
+                    <label for="csvFile" style="display: block; margin-bottom: 5px; font-weight: bold;">CSV ફાઇલ પસંદ કરો:</label>
+                    <input type="file" id="csvFile" accept=".csv" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <button class="admin-btn" onclick="uploadCSV()" style="background: #28a745;">CSV અપલોડ કરો</button>
+                    <button class="admin-btn" onclick="hideCSVImport()" style="background: #6c757d;">રદ કરો</button>
+                </div>
+                <div id="csvStatus" style="margin-top: 10px; padding: 10px; border-radius: 4px;"></div>
+                <div style="margin-top: 15px; padding: 10px; background: #e9ecef; border-radius: 4px; font-size: 12px;">
+                    <strong>CSV ફોર્મેટ:</strong><br>
+                    <strong>1. પ્રોડક્ટ CSV:</strong> id, category_id, title, description, price, availability, image_link, featured, rating, created_at, updated_at<br>
+                    <strong>2. કોટેશન CSV:</strong> Customer Name, Contact, Product, Quantity, Unit Price, Notes<br>
+                    <br>
+                    <strong>ટેસ્ટ ફાઇલો:</strong><br>
+                    • sample-products.csv (પ્રોડક્ટ ડેટા)<br>
+                    • sample-bulk-data.csv (કોટેશન ડેટા)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentQuotation = null;
+        let quotationHistory = JSON.parse(localStorage.getItem('quotationHistory')) || [];
+
+        // Companies data
+        const companies = {
+            companyA: {
+                name: 'કેડીએન ક્રિએટિવ સોલ્યુશન',
+                address: 'અમદાવાદ, ગુજરાત',
+                phone: '+91 9876543210',
+                email: 'info@kdncreative.com',
+                gst: '24ABCDE1234F1Z5'
+            },
+            companyB: {
+                name: 'ટેક સોલ્યુશન',
+                address: 'સુરત, ગુજરાત',
+                phone: '+91 9876543211',
+                email: 'info@techsolution.com',
+                gst: '24ABCDE1234F1Z6'
+            },
+            companyC: {
+                name: 'ડિજિટલ માર્કેટિંગ',
+                address: 'વડોદરા, ગુજરાત',
+                phone: '+91 9876543212',
+                email: 'info@digitalmarketing.com',
+                gst: '24ABCDE1234F1Z7'
+            }
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Working quotation page loaded');
+            setupEventListeners();
+            loadImportedProducts();
+        });
+
+        function setupEventListeners() {
+            console.log('Setting up event listeners');
+            
+            // Form submission
+            const form = document.getElementById('quotationForm');
+            if (form) {
+                form.addEventListener('submit', handleFormSubmit);
+                console.log('Form event listener added');
+            }
+
+            // Add product button
+            const addBtn = document.getElementById('addProduct');
+            if (addBtn) {
+                addBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Add product button clicked');
+                    addNewProduct();
+                });
+                console.log('Add product button event listener added');
+            } else {
+                console.error('Add product button not found');
+            }
+
+            // PDF generation buttons
+            const pdf18Btn = document.getElementById('generateGujaratiPDF18');
+            const pdf20Btn = document.getElementById('generateGujaratiPDF20');
+            const pdf25Btn = document.getElementById('generateGujaratiPDF25');
+
+            if (pdf18Btn) {
+                pdf18Btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('PDF 18% button clicked');
+                    generateGujaratiPDF(18);
+                });
+                console.log('PDF 18% button event listener added');
+            }
+
+            if (pdf20Btn) {
+                pdf20Btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('PDF 20% button clicked');
+                    generateGujaratiPDF(20);
+                });
+                console.log('PDF 20% button event listener added');
+            }
+
+            if (pdf25Btn) {
+                pdf25Btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('PDF 25% button clicked');
+                    generateGujaratiPDF(25);
+                });
+                console.log('PDF 25% button event listener added');
+            }
+
+            // Product name changes
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('product-name')) {
+                    handleProductNameChange(e.target);
+                    autoFillProductPrice(e.target);
+                }
+            });
+
+            // Remove product buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-product-btn')) {
+                    removeProduct(e.target);
+                }
+            });
+        }
+
+        function testAllButtons() {
+            alert('બટન ટેસ્ટ શરૂ...');
+            
+            // Test add product button
+            const addBtn = document.getElementById('addProduct');
+            if (addBtn) {
+                console.log('Add product button found');
+                addBtn.click();
+            } else {
+                console.error('Add product button not found');
+            }
+            
+            // Test form
+            const form = document.getElementById('quotationForm');
+            if (form) {
+                console.log('Form found');
+            } else {
+                console.error('Form not found');
+            }
+            
+            alert('બટન ટેસ્ટ પૂર્ણ! Console જુઓ.');
+        }
+
+        function addNewProduct() {
+            console.log('Adding new product');
+            alert('નવું પ્રોડક્ટ ઉમેરાઈ રહ્યું છે...');
+            
+            const container = document.getElementById('productsContainer');
+            if (!container) {
+                console.error('Products container not found');
+                return;
+            }
+            
+            const productCount = container.children.length;
+            const newIndex = productCount;
+            
+            const productHTML = `
+                <div class="product-item" data-product-index="${newIndex}">
+                    <div class="product-header">
+                        <h4>પ્રોડક્ટ ${newIndex + 1}</h4>
+                        <button type="button" class="remove-product-btn">×</button>
+                    </div>
+                    
+                    <div class="product-fields">
+                        <div class="form-group">
+                            <label>પ્રોડક્ટ નામ *</label>
+                            <select class="product-name" required>
+                                <option value="">પ્રોડક્ટ પસંદ કરો</option>
+                                <option value="વેબસાઈટ ડેવલપમેન્ટ">વેબસાઈટ ડેવલપમેન્ટ</option>
+                                <option value="મોબાઇલ એપ ડેવલપમેન્ટ">મોબાઇલ એપ ડેવલપમેન્ટ</option>
+                                <option value="ઇ-કોમર્સ વેબસાઈટ">ઇ-કોમર્સ વેબસાઈટ</option>
+                                <option value="ડિજિટલ માર્કેટિંગ">ડિજિટલ માર્કેટિંગ</option>
+                                <option value="સોશિયલ મીડિયા માર્કેટિંગ">સોશિયલ મીડિયા માર્કેટિંગ</option>
+                                <option value="SEO સેવાઓ">SEO સેવાઓ</option>
+                                <option value="કન્ટેન્ટ રાઇટિંગ">કન્ટેન્ટ રાઇટિંગ</option>
+                                <option value="ગ્રાફિક ડિઝાઇન">ગ્રાફિક ડિઝાઇન</option>
+                                <option value="લોગો ડિઝાઇન">લોગો ડિઝાઇન</option>
+                                <option value="વિડિયો એડિટિંગ">વિડિયો એડિટિંગ</option>
+                                <option value="ફોટોગ્રાફી">ફોટોગ્રાફી</option>
+                                <option value="બ્રાન્ડિંગ">બ્રાન્ડિંગ</option>
+                                <option value="પ્રિન્ટ ડિઝાઇન">પ્રિન્ટ ડિઝાઇન</option>
+                                <option value="અન્ય">અન્ય</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group custom-product-group" style="display: none;">
+                            <label>કસ્ટમ પ્રોડક્ટ નામ</label>
+                            <input type="text" class="custom-product" placeholder="તમારું પ્રોડક્ટ નામ લખો">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>જથ્થો *</label>
+                                <input type="number" class="quantity" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>એકમ ભાવ (₹) *</label>
+                                <input type="number" class="unit-price" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>નોંધ</label>
+                            <input type="text" class="product-notes" placeholder="પ્રોડક્ટ વિશે વધારાની માહિતી">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', productHTML);
+            
+            // Show remove button for first product if there are multiple
+            if (container.children.length > 1) {
+                container.querySelector('.product-item:first-child .remove-product-btn').style.display = 'block';
+            }
+            
+            alert('નવું પ્રોડક્ટ ઉમેરાઈ ગયું!');
+        }
+
+        function handleProductNameChange(selectElement) {
+            const productItem = selectElement.closest('.product-item');
+            const customGroup = productItem.querySelector('.custom-product-group');
+            const customInput = productItem.querySelector('.custom-product');
+            
+            if (selectElement.value === 'અન્ય') {
+                customGroup.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customGroup.style.display = 'none';
+                customInput.required = false;
+            }
+        }
+
+        function removeProduct(button) {
+            const productItem = button.closest('.product-item');
+            const container = document.getElementById('productsContainer');
+            
+            if (container.children.length > 1) {
+                productItem.remove();
+                updateProductNumbers();
+                
+                if (container.children.length === 1) {
+                    container.querySelector('.remove-product-btn').style.display = 'none';
+                }
+            }
+        }
+
+        function updateProductNumbers() {
+            const container = document.getElementById('productsContainer');
+            const products = container.querySelectorAll('.product-item');
+            
+            products.forEach((product, index) => {
+                product.querySelector('h4').textContent = `પ્રોડક્ટ ${index + 1}`;
+                product.setAttribute('data-product-index', index);
+            });
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            alert('કોટેશન ફોર્મ સબમિટ થઈ રહ્યું છે...');
+            
+            const formData = new FormData(e.target);
+            
+            // Collect all products
+            const products = [];
+            const productItems = document.querySelectorAll('.product-item');
+            
+            productItems.forEach((item, index) => {
+                const productName = item.querySelector('.product-name').value;
+                const customProduct = item.querySelector('.custom-product').value;
+                const quantity = parseInt(item.querySelector('.quantity').value);
+                const unitPrice = parseFloat(item.querySelector('.unit-price').value);
+                const notes = item.querySelector('.product-notes').value;
+                
+                let finalProductName = productName;
+                if (productName === 'અન્ય' && customProduct) {
+                    finalProductName = customProduct;
+                }
+                
+                products.push({
+                    name: finalProductName,
+                    quantity: quantity,
+                    unitPrice: unitPrice,
+                    notes: notes,
+                    total: quantity * unitPrice
+                });
+            });
+            
+            const quotationData = {
+                id: generateQuotationId(),
+                date: new Date().toLocaleDateString('gu-IN', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }),
+                customerName: formData.get('customerName'),
+                contactInfo: formData.get('contactInfo'),
+                company: formData.get('company'),
+                products: products,
+                totalAmount: products.reduce((sum, product) => sum + product.total, 0),
+                notes: formData.get('notes'),
+                timestamp: new Date().toISOString()
+            };
+            
+            currentQuotation = quotationData;
+            quotationHistory.unshift(quotationData);
+            localStorage.setItem('quotationHistory', JSON.stringify(quotationHistory));
+            
+            displayQuotationPreview(quotationData);
+            alert('કોટેશન જનરેટ થઈ ગઈ!');
+        }
+
+        function generateQuotationId() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `QTN${year}${month}${day}${random}`;
+        }
+
+        function displayQuotationPreview(data) {
+            const company = companies[data.company];
+            const total = data.totalAmount;
+            
+            // Generate products table
+            const productsTable = data.products.map(product => `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${product.quantity}</td>
+                    <td>₹${product.unitPrice.toFixed(2)}</td>
+                    <td>₹${product.total.toFixed(2)}</td>
+                </tr>
+            `).join('');
+            
+            const preview = document.getElementById('quotationPreview');
+            preview.innerHTML = `
+                <h3>કોટેશન પૂર્વાવલોકન</h3>
+                <div class="quotation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">કોટેશન નંબર:</span>
+                        <span class="detail-value">${data.id}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">તારીખ:</span>
+                        <span class="detail-value">${data.date}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">ગ્રાહકનું નામ:</span>
+                        <span class="detail-value">${data.customerName}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">સંપર્ક:</span>
+                        <span class="detail-value">${data.contactInfo}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">કંપની:</span>
+                        <span class="detail-value">${company.name}</span>
+                    </div>
+                </div>
+                
+                <div class="products-table">
+                    <h4>પ્રોડક્ટ વિગતો</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>પ્રોડક્ટ નામ</th>
+                                <th>જથ્થો</th>
+                                <th>એકમ ભાવ</th>
+                                <th>કુલ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${productsTable}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pricing-table">
+                    <h4>ભાવ ગણતરી</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>વર્ણન</th>
+                                <th>રકમ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>કુલ રકમ</td>
+                                <td>₹${total.toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>18% રિયાયત સાથે</td>
+                                <td>₹${(total * 0.82).toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>20% રિયાયત સાથે</td>
+                                <td>₹${(total * 0.80).toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>25% રિયાયત સાથે</td>
+                                <td>₹${(total * 0.75).toFixed(2)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                ${data.notes ? `<div class="notes"><strong>નોંધ:</strong> ${data.notes}</div>` : ''}
+            `;
+            
+            document.getElementById('previewSection').style.display = 'block';
+        }
+
+        function generateGujaratiPDF(discountPercentage) {
+            if (!currentQuotation) {
+                alert('પહેલા કોટેશન ફોર્મ ભરો');
+                return;
+            }
+            
+            console.log('Generating Gujarati PDF with', discountPercentage, '% discount');
+            alert('ગુજરાતી PDF જનરેટ થઈ રહી છે...');
+            
+            const company = companies[currentQuotation.company];
+            const total = currentQuotation.totalAmount;
+            const discountedPrice = total * (1 - discountPercentage / 100);
+            
+            // Create HTML content with A4 size and proper design
+            const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="gu">
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@100..900&display=swap');
+                    
+                    @page {
+                        size: A4;
+                        margin: 0.5in;
+                    }
+                    
+                    body {
+                        font-family: 'Baloo Bhai 2', 'Noto Sans Gujarati', sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        line-height: 1.4;
+                        color: #333;
+                        font-size: 12px;
+                    }
+                    
+                    .quotation-container {
+                        width: 100%;
+                        max-width: 8.5in;
+                        margin: 0 auto;
+                        background: white;
+                    }
+                    
+                    .header {
+                        text-align: center;
+                        margin-bottom: 30px;
+                        padding-bottom: 20px;
+                    }
+                    
+                    
+                    .company-info {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 30px;
+                        padding: 20px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                    }
+                    
+                    .company-details, .customer-details {
+                        flex: 1;
+                    }
+                    
+                    .company-details h3, .customer-details h3 {
+                        color: #667eea;
+                        margin-bottom: 10px;
+                        font-size: 16px;
+                        border-bottom: 2px solid #667eea;
+                        padding-bottom: 5px;
+                    }
+                    
+                    .products-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                        background: white;
+                    }
+                    
+                    .products-table th {
+                        background: #667eea;
+                        color: white;
+                        padding: 12px 8px;
+                        text-align: left;
+                        font-weight: bold;
+                        font-size: 13px;
+                    }
+                    
+                    .products-table td {
+                        padding: 10px 8px;
+                        border-bottom: 1px solid #ddd;
+                        font-size: 12px;
+                    }
+                    
+                    .products-table tr:nth-child(even) {
+                        background: #f8f9fa;
+                    }
+                    
+                    .pricing-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                        background: white;
+                    }
+                    
+                    .pricing-table th {
+                        background: #28a745;
+                        color: white;
+                        padding: 12px 8px;
+                        text-align: left;
+                        font-weight: bold;
+                        font-size: 13px;
+                    }
+                    
+                    .pricing-table td {
+                        padding: 10px 8px;
+                        border-bottom: 1px solid #ddd;
+                        font-size: 12px;
+                    }
+                    
+                    .pricing-table tr:last-child td {
+                        background: #e8f5e8;
+                        font-weight: bold;
+                        font-size: 14px;
+                    }
+                    
+                    .notes-section {
+                        margin: 20px 0;
+                        padding: 15px;
+                        background: #f8f9fa;
+                        border-left: 4px solid #667eea;
+                        border-radius: 0 8px 8px 0;
+                    }
+                    
+                    .notes-section h3 {
+                        color: #667eea;
+                        margin-bottom: 10px;
+                        font-size: 14px;
+                    }
+                    
+                    .signature-section {
+                        margin-top: 40px;
+                        display: flex;
+                        justify-content: flex-end;
+                        padding: 20px 0;
+                    }
+                    
+                    .signature-box {
+                        text-align: center;
+                        width: 200px;
+                    }
+                    
+                    .signature-line {
+                        border-top: 1px solid #333;
+                        margin-top: 40px;
+                        padding-top: 5px;
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    
+                    .footer {
+                        margin-top: 40px;
+                        text-align: center;
+                        padding: 20px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                        font-size: 11px;
+                        color: #666;
+                    }
+                    
+                    
+                    @media print {
+                        body { margin: 0; }
+                        .quotation-container { box-shadow: none; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="quotation-container">
+                    <div class="header">
+                    </div>
+                    
+                    <div class="company-info">
+                        <div class="company-details">
+                            <h3>કંપની વિગતો</h3>
+                            <strong>${company.name}</strong><br>
+                            ${company.address}<br>
+                            ફોન: ${company.phone}<br>
+                            ઇમેઇલ: ${company.email}<br>
+                            GST: ${company.gst}
+                        </div>
+                        
+                        <div class="customer-details">
+                            <h3>ગ્રાહક વિગતો</h3>
+                            <strong>નામ:</strong> ${currentQuotation.customerName}<br>
+                            <strong>સંપર્ક:</strong> ${currentQuotation.contactInfo}
+                        </div>
+                    </div>
+                    
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">ક્રમ</th>
+                                <th style="width: 40%;">પ્રોડક્ટ નામ</th>
+                                <th style="width: 15%;">જથ્થો</th>
+                                <th style="width: 20%;">એકમ ભાવ</th>
+                                <th style="width: 20%;">કુલ રકમ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${currentQuotation.products.map((product, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${product.name}</td>
+                                    <td>${product.quantity}</td>
+                                    <td>₹${product.unitPrice.toFixed(2)}</td>
+                                    <td>₹${product.total.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70%;">વર્ણન</th>
+                                <th style="width: 30%;">રકમ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>કુલ રકમ</td>
+                                <td>₹${total.toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>${discountPercentage}% રિયાયત</td>
+                                <td>₹${(total * discountPercentage / 100).toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>અંતિમ રકમ</strong></td>
+                                <td><strong>₹${discountedPrice.toFixed(2)}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    ${currentQuotation.notes ? `
+                        <div class="notes-section">
+                            <h3>નોંધ</h3>
+                            ${currentQuotation.notes}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="signature-section">
+                        <div class="signature-box" style="margin-left: auto;">
+                            <div class="signature-line">કંપની હસ્તાક્ષર</div>
+                            <div style="margin-top: 10px; font-size: 11px; color: #666;">
+                                ${company.name}<br>
+                                તારીખ: _________________
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <strong>આ કોટેશન 30 દિવસ માટે માન્ય છે</strong><br>
+                        ધન્યવાદ! આપની સેવામાં - ${company.name}
+                    </div>
+                </div>
+            </body>
+            </html>
+            `;
+            
+            // Open in new window for printing
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+            
+            // Auto print after a short delay
+            setTimeout(() => {
+                printWindow.print();
+            }, 1000);
+            
+            alert('ગુજરાતી PDF જનરેટ થઈ ગઈ!');
+        }
+
+        function viewHistory() {
+            const history = JSON.parse(localStorage.getItem('quotationHistory')) || [];
+            if (history.length === 0) {
+                alert('કોઈ કોટેશન ઇતિહાસ નથી');
+                return;
+            }
+            
+            let message = `કુલ કોટેશન: ${history.length}\n\n`;
+            history.slice(0, 5).forEach((q, index) => {
+                message += `${index + 1}. ${q.id} - ${q.customerName} - ₹${q.totalAmount.toFixed(2)}\n`;
+            });
+            
+            alert(message);
+        }
+
+        function exportData() {
+            const data = JSON.parse(localStorage.getItem('quotationHistory')) || [];
+            const jsonData = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'quotations_' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('ડેટા એક્સપોર્ટ થઈ ગયો');
+        }
+
+        function clearData() {
+            if (confirm('શું તમે ખરેખર બધો ડેટા ક્લિયર કરવા માંગો છો?')) {
+                localStorage.removeItem('quotationHistory');
+                alert('ડેટા ક્લિયર થઈ ગયો');
+            }
+        }
+
+        function showCSVImport() {
+            const csvSection = document.getElementById('csvImportSection');
+            csvSection.style.display = 'block';
+        }
+
+        function hideCSVImport() {
+            const csvSection = document.getElementById('csvImportSection');
+            csvSection.style.display = 'none';
+        }
+
+        function uploadCSV() {
+            const fileInput = document.getElementById('csvFile');
+            const statusDiv = document.getElementById('csvStatus');
+            
+            if (!fileInput.files[0]) {
+                statusDiv.innerHTML = '<div style="color: red; background: #f8d7da; padding: 10px; border-radius: 4px;">કૃપા કરીને CSV ફાઇલ પસંદ કરો</div>';
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const csv = e.target.result;
+                    const lines = csv.split('\n');
+                    const headers = lines[0].split(',').map(h => h.trim());
+                    
+                    console.log('CSV Headers:', headers);
+                    
+                    let importedProducts = 0;
+                    let importedQuotations = 0;
+                    let errorCount = 0;
+                    
+                    // Check if this is a product CSV (has id, title, price columns)
+                    const isProductCSV = headers.includes('id') && headers.includes('title') && headers.includes('price');
+                    
+                    if (isProductCSV) {
+                        console.log('Processing Product CSV');
+                        
+                        // Import products to dropdown
+                        for (let i = 1; i < lines.length; i++) {
+                            if (lines[i].trim()) {
+                                const values = lines[i].split(',').map(v => v.trim());
+                                if (values.length >= 3) {
+                                    const productData = {
+                                        id: values[0] || '',
+                                        title: values[2] || '', // title column
+                                        price: parseFloat(values[4]) || 0, // price column
+                                        description: values[3] || '', // description column
+                                        availability: values[5] || 'available', // availability column
+                                        rating: values[8] || '0' // rating column
+                                    };
+                                    
+                                    // Add to product dropdown
+                                    addProductToDropdown(productData);
+                                    importedProducts++;
+                                } else {
+                                    errorCount++;
+                                }
+                            }
+                        }
+                        
+                        statusDiv.innerHTML = `<div style="color: green; background: #d4edda; padding: 10px; border-radius: 4px;">
+                            સફળતાપૂર્વક ${importedProducts} પ્રોડક્ટ ઇમ્પોર્ટ થયા
+                            ${errorCount > 0 ? `<br>${errorCount} રેકોર્ડમાં ભૂલ હતી` : ''}
+                        </div>`;
+                        
+                    } else {
+                        console.log('Processing Quotation CSV');
+                        
+                        // Import quotations (old format)
+                        for (let i = 1; i < lines.length; i++) {
+                            if (lines[i].trim()) {
+                                const values = lines[i].split(',').map(v => v.trim());
+                                if (values.length >= 5) {
+                                const quotation = {
+                                    id: `QTN${Date.now()}${i}`,
+                                    date: new Date().toLocaleDateString('gu-IN', { 
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric' 
+                                    }),
+                                    customerName: values[0] || 'Unknown',
+                                        contactInfo: values[1] || '',
+                                        company: 'companyA',
+                                        products: [{
+                                            name: values[2] || 'Unknown Product',
+                                            quantity: parseInt(values[3]) || 1,
+                                            unitPrice: parseFloat(values[4]) || 0,
+                                            notes: values[5] || '',
+                                            total: (parseInt(values[3]) || 1) * (parseFloat(values[4]) || 0)
+                                        }],
+                                        totalAmount: (parseInt(values[3]) || 1) * (parseFloat(values[4]) || 0),
+                                        notes: values[6] || '',
+                                        timestamp: new Date().toISOString()
+                                    };
+                                    
+                                    quotationHistory.unshift(quotation);
+                                    importedQuotations++;
+                                } else {
+                                    errorCount++;
+                                }
+                            }
+                        }
+                        
+                        localStorage.setItem('quotationHistory', JSON.stringify(quotationHistory));
+                        
+                        statusDiv.innerHTML = `<div style="color: green; background: #d4edda; padding: 10px; border-radius: 4px;">
+                            સફળતાપૂર્વક ${importedQuotations} કોટેશન ઇમ્પોર્ટ થયા
+                            ${errorCount > 0 ? `<br>${errorCount} રેકોર્ડમાં ભૂલ હતી` : ''}
+                        </div>`;
+                    }
+                    
+                    // Hide section after 3 seconds
+                    setTimeout(() => {
+                        hideCSVImport();
+                    }, 3000);
+                    
+                } catch (error) {
+                    statusDiv.innerHTML = `<div style="color: red; background: #f8d7da; padding: 10px; border-radius: 4px;">
+                        CSV ફાઇલ પડવામાં ભૂલ: ${error.message}
+                    </div>`;
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function addProductToDropdown(productData) {
+            // Get all product dropdowns
+            const productDropdowns = document.querySelectorAll('.product-name');
+            
+            productDropdowns.forEach(dropdown => {
+                // Check if product already exists
+                const existingOption = dropdown.querySelector(`option[value="${productData.title}"]`);
+                if (!existingOption) {
+                    // Create new option
+                    const option = document.createElement('option');
+                    option.value = productData.title;
+                    option.textContent = `${productData.title} (₹${productData.price})`;
+                    option.setAttribute('data-price', productData.price);
+                    option.setAttribute('data-description', productData.description);
+                    option.setAttribute('data-rating', productData.rating);
+                    
+                    // Insert before "અન્ય" option
+                    const otherOption = dropdown.querySelector('option[value="અન્ય"]');
+                    if (otherOption) {
+                        dropdown.insertBefore(option, otherOption);
+                    } else {
+                        dropdown.appendChild(option);
+                    }
+                }
+            });
+            
+            // Store in localStorage for persistence
+            let importedProducts = JSON.parse(localStorage.getItem('importedProducts')) || [];
+            const existingProduct = importedProducts.find(p => p.title === productData.title);
+            if (!existingProduct) {
+                importedProducts.push(productData);
+                localStorage.setItem('importedProducts', JSON.stringify(importedProducts));
+            }
+        }
+
+        function loadImportedProducts() {
+            const importedProducts = JSON.parse(localStorage.getItem('importedProducts')) || [];
+            importedProducts.forEach(product => {
+                addProductToDropdown(product);
+            });
+        }
+
+        function autoFillProductPrice(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            if (selectedOption && selectedOption.hasAttribute('data-price')) {
+                const price = selectedOption.getAttribute('data-price');
+                const productItem = selectElement.closest('.product-item');
+                const unitPriceInput = productItem.querySelector('.unit-price');
+                
+                if (unitPriceInput && price && price !== '0') {
+                    unitPriceInput.value = price;
+                    console.log('Auto-filled price:', price);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
