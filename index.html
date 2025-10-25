@@ -474,7 +474,7 @@
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label>જથ્થો *</label>
-                                            <input type="number" class="quantity" min="1" required>
+                                            <input type="number" class="quantity" min="1" step="1" required oninput="validateQuantity(this)">
                                         </div>
                                         <div class="form-group">
                                             <label>એકમ ભાવ (₹) *</label>
@@ -784,7 +784,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>જથ્થો *</label>
-                                <input type="number" class="quantity" min="1" required>
+                                <input type="number" class="quantity" min="1" step="1" required oninput="validateQuantity(this)">
                             </div>
                             <div class="form-group">
                                 <label>એકમ ભાવ (₹) *</label>
@@ -1090,8 +1090,8 @@
                     }
                     
                     .products-table th {
-                        background: #667eea;
-                        color: white;
+                        background: #feffff;
+                        color: black;
                         padding: 12px 8px;
                         text-align: left;
                         font-weight: bold;
@@ -1116,8 +1116,8 @@
                     }
                     
                     .pricing-table th {
-                        background: #28a745;
-                        color: white;
+                        background:#feffff;
+                        color: black;
                         padding: 12px 8px;
                         text-align: left;
                         font-weight: bold;
@@ -1512,6 +1512,22 @@
                     console.log('Auto-filled price:', price);
                 }
             }
+        }
+
+        function validateQuantity(input) {
+            // Remove any non-numeric characters except decimal point
+            let value = input.value.replace(/[^0-9]/g, '');
+            
+            // Ensure it's a positive integer
+            if (value === '' || value === '0') {
+                value = '1';
+            }
+            
+            // Update the input value
+            input.value = value;
+            
+            // Trigger change event to recalculate totals
+            input.dispatchEvent(new Event('change'));
         }
 
         // Company Details Edit Functions
